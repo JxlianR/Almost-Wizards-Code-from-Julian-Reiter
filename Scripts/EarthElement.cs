@@ -33,13 +33,14 @@ public class EarthElement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        //transform.position = Vector3.MoveTowards(transform.position, new Vector3(PlayerController.aimPositionTwo.x, PlayerController.aimPositionOne.y, PlayerController.aimPositionTwo.z), speed * Time.deltaTime);
+        // Movement
         transform.Translate(new Vector3(0, -0.4f, -1) * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // I had to differentiate between a lot of objects when colliding to get the spawned area appear on the right place
+
         // Checks if the tag of the GameObject the element is colliding with equals the string for the first element this element can be combined with
         if (other.tag == combiningElement1Tag || other.tag == combiningArea1Tag)
         {
@@ -58,7 +59,7 @@ public class EarthElement : MonoBehaviour
             // Spawns the second combined element at the position I get from DetectGroundHeigh minus the Vector3
             Instantiate(combinedElement2, DetectGroundHeight(other.transform.position.x, other.transform.position.z) - new Vector3(0, 1.56f, 0), combinedElement2.transform.rotation);
         }
-        else if (other.tag == "Enemy") // Checks if the element collides with an enemy or the ground
+        else if (other.tag == "Enemy") // Checks if the element collides with an enemy
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -66,7 +67,7 @@ public class EarthElement : MonoBehaviour
             // Spawns the element area of this element at the position I get from DetectGroundHeigh minus the Vector3
             Instantiate(elementArea, DetectGroundHeight(other.transform.position.x, other.transform.position.z) - new Vector3(0, 1.27f, 0), elementArea.transform.rotation);
         }
-        else if (other.tag == "Ground")
+        else if (other.tag == "Ground") // Checks if the other object is the ground
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -74,7 +75,7 @@ public class EarthElement : MonoBehaviour
             // Spawns the element area of this element at the position of the element minus the Vector3
             Instantiate(elementArea, transform.position - new Vector3(0, 0.28f, 0), elementArea.transform.rotation);
         }
-        else if (other.tag == "Platform")
+        else if (other.tag == "Platform") // Checks if the other object is a platform
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -82,7 +83,7 @@ public class EarthElement : MonoBehaviour
             /// Spawns the element area of this element at the position of the element minus the Vector3
             Instantiate(elementArea, transform.position - new Vector3(0, 0.22f,0), elementArea.transform.rotation);
         }
-        else if (other.tag == "Grandmaster")
+        else if (other.tag == "Grandmaster") // Checks if the other object is the grandmaster
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 

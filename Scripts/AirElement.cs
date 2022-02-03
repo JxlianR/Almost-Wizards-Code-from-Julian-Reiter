@@ -38,6 +38,8 @@ public class AirElement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // I had to differentiate between a lot of objects when colliding to get the spawned area appear on the right place
+
         // Checks if the tag of the GameObject the element is colliding with equals the string for the first element this element can be combined with
         if (other.tag == combiningElement1Tag || other.tag == combiningArea1Tag)
         {
@@ -56,7 +58,7 @@ public class AirElement : MonoBehaviour
             // Spawns the second combined element at the position I get from DetectGroundHeigh minus the Vector3
             Instantiate(combinedElement2, DetectGroundHeight(other.transform.position.x, other.transform.position.z) - new Vector3(0, 2.83f, 0), combinedElement2.transform.rotation);
         }
-        else if (other.tag == "Enemy") // Checks if the element collides with an enemy or the ground
+        else if (other.tag == "Enemy") // Checks if the element collides with an enemy
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 

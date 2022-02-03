@@ -27,21 +27,12 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed; // Speed of rotation
     public float waitTime;
 
-    private float controllerDeadzone = 0.1f;
+    private float controllerDeadzone = 0.1f; // Input where the controller is not reacting
 
-    public int shootCooldown;
+    public int shootCooldown; // Cooldown for shooting
 
     public string firstElementTag; // Tag of the first element the player can shoot
     public string secondElementTag; // Tag of the second element the player can shoot
-
-    public static Vector3 mousePositionLeft;
-    public static Vector3 mousePositionRight;
-    public static Vector3 aimPositionOne;
-    public static Vector3 aimPositionTwo;
-
-    public static bool live2;
-    public static bool live1;
-    public static bool live0;
 
     private bool isMovingPressed;
     private bool isWPressed;
@@ -69,11 +60,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        isMovingPressed = movementInput.x != 0 || movementInput.y != 0; //isMovingPressed is true when the player is pressing WASD
-        isWPressed = movementInput.y > 0.7 && movementInput.y <= 1;
-        isAPressed = movementInput.x >= -1 && movementInput.x < -0.7;
-        isSPressed = movementInput.y >= -1 && movementInput.y < -0.7;
-        isDPressed = movementInput.x > 0.7 && movementInput.x <= 1;
+        isMovingPressed = movementInput.x != 0 || movementInput.y != 0; // isMovingPressed is true when the player is pressing WASD
+        isWPressed = movementInput.y > 0.7 && movementInput.y <= 1; // isWPressed is true when the movement input in y direction is between 0.7 and 1
+        isAPressed = movementInput.x >= -1 && movementInput.x < -0.7; // isAPressed is true when the movement input in x direction is between -1 and -0.7
+        isSPressed = movementInput.y >= -1 && movementInput.y < -0.7; // isSPressed is true when the movement input in y direction is between -1 and -0.7
+        isDPressed = movementInput.x > 0.7 && movementInput.x <= 1; // isDPressed is true when the movement input in x direction is between 0.7 and 1
 
         rotationMinus45To45 = transform.rotation.y > -0.35 && transform.rotation.y < 0.35; // rotationMinus45To45 is true when the players y rotation is between -0.35 and 0.35
         rotation45To135 = transform.rotation.y > 0.35 && transform.rotation.y < 0.92; // rotation45To135 is true when the players y rotation is between 0.35 and 0.92
@@ -97,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
         characterController.Move(moveVector * Time.deltaTime); //Apply move Vector
 
+
         // Rotation towards mouse position
         Ray ray = cam.ScreenPointToRay(mouseRotationInput);
         Plane groundPlane = new Plane(Vector3.up, transform.position);
@@ -110,12 +102,12 @@ public class PlayerController : MonoBehaviour
             transform.LookAt(new Vector3(rotationPoint.x, transform.position.y, rotationPoint.z));
         }
 
+
         // Checking if the player lost all lives and if so destroying it
         if (health.lives == 0)
         {
             StartCoroutine(Dying());
         }
-
 
 
         // Rotation with controller
@@ -129,13 +121,6 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, newRotation, rotationSpeed * Time.deltaTime); // Rotates the character towards newRotation
             }
         }
-
-
-
-        /*if (ButtonManager.improveEnemies == true) // If this bool is true it means that the wave is over and the dead character can spawn again
-        {
-            StartCoroutine(Respawn());
-        }*/
     }
 
     private void HandleAnimations()
@@ -162,6 +147,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isWPressed && rotation45To135)
         {
+            // Starts animation for walking left and sets everything else to false
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkForward", false);
@@ -169,6 +155,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isWPressed && rotation135ToMinus135)
         {
+            // Starts animation for walking backward and sets everything else to false
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkLeft", false);
@@ -176,6 +163,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isWPressed && rotationMinus135ToMinus45)
         {
+            // Starts animation for walking right and sets everything else to false
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkBackward", false);
@@ -183,6 +171,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isAPressed && rotationMinus45To45)
         {
+            // Starts animation for walking left and sets everything else to false
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkRight", false);
@@ -190,6 +179,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isAPressed && rotation45To135)
         {
+            // Starts animation for walking backward and sets everything else to false
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkRight", false);
@@ -197,6 +187,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isAPressed && rotation135ToMinus135)
         {
+            // Starts animation for walking right and sets everything else to false
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkBackward", false);
@@ -204,6 +195,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isAPressed && rotationMinus135ToMinus45)
         {
+            // Starts animation for walking forward and sets everything else to false
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkRight", false);
@@ -211,6 +203,7 @@ public class PlayerController : MonoBehaviour
         }
        else if (isSPressed && rotationMinus45To45)
         {
+            // Starts animation for walking backward and sets everything else to false
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkLeft", false);
@@ -218,6 +211,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isSPressed && rotation45To135)
         {
+            // Starts animation for walking right and sets everything else to false
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkForward", false);
@@ -225,6 +219,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isSPressed && rotation135ToMinus135)
         {
+            // Starts animation for walking forward and sets everything else to false
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkLeft", false);
@@ -232,6 +227,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isSPressed && rotationMinus135ToMinus45)
         {
+            // Starts animation for walking left and sets everything else to false
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkBackward", false);
@@ -239,6 +235,7 @@ public class PlayerController : MonoBehaviour
         }
          else if (isDPressed && rotationMinus45To45)
         {
+            // Starts animation for walking right and sets everything else to false
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkBackward", false);
@@ -246,6 +243,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isDPressed && rotation45To135)
         {
+            // Starts animation for walking forward and sets everything else to false
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkRight", false);
@@ -253,6 +251,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isDPressed && rotation135ToMinus135)
         {
+            // Starts animation for walking left and sets everything else to false
             animator.SetBool("WalkRight", false);
             animator.SetBool("WalkBackward", false);
             animator.SetBool("WalkForward", false);
@@ -260,6 +259,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (isDPressed && rotationMinus135ToMinus45)
         {
+            // Starts animation for walking backward and sets everything else to false
             animator.SetBool("WalkForward", false);
             animator.SetBool("WalkLeft", false);
             animator.SetBool("WalkRight", false);
@@ -335,37 +335,37 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Enemy") // Checks if the gameObject the player is colliding with is an enemy
         {
             health.lives -= 1; // Subtracting 1 life
-            animator.SetBool("Damage", true);
-            StartCoroutine(EndAnimation());
+            animator.SetBool("Damage", true); // Starts damage animation
+            StartCoroutine(EndAnimation()); // Starts Coroutine to end damage animation
 
             Destroy(other.gameObject); // Destroys the enemy
         }
         else if (other.tag == "Grandmaster") // Checks if the gameObject the player is colliding with is an enemy
         {
             health.lives -= 1; // Subtracting 1 life
-            animator.SetBool("Damage", true);
-            StartCoroutine(EndAnimation());
+            animator.SetBool("Damage", true); // Starts damage animation
+            StartCoroutine(EndAnimation()); // Starts Coroutine to end damage animation
         }
         else if (other.tag == "Element")
         {
-            health.lives -= 1;
-            animator.SetBool("Damage", true);
-            StartCoroutine(EndAnimation());
+            health.lives -= 1; // Subtracting 1 life
+            animator.SetBool("Damage", true); // Starts damage animation
+            StartCoroutine(EndAnimation()); // Starts Coroutine to end damage animation
         }
         else if (other.tag == "Heart")
         {
             if (health.lives < 3)
             {
-                health.lives++;
+                health.lives++; // Adds 1 life
             }
 
             Destroy(other.gameObject);
         }
         else if (other.tag == "Fire" || other.tag == "Air" || other.tag == "Water" || other.tag == "Earth" || other.tag == "FireArea" || other.tag == "AirArea" || other.tag == "WaterArea" || other.tag == "EarthArea" || other.tag == "Firenado" || other.tag == "Magma" || other.tag == "Ice" || other.tag == "Mud")
         {
-            health.lives -= 1;
-            animator.SetBool("Damage", true);
-            StartCoroutine(EndAnimation());
+            health.lives -= 1; // Subtracting 1 life
+            animator.SetBool("Damage", true); // Starts damage animation
+            StartCoroutine(EndAnimation()); // Starts Coroutine to end damage animation
         }
     }
 
@@ -396,20 +396,20 @@ public class PlayerController : MonoBehaviour
     IEnumerator EndAnimation()
     {
         yield return new WaitForSeconds(0.1f);
-        animator.SetBool("Damage", false);
+        animator.SetBool("Damage", false); // Ends damage animation
     }
 
     IEnumerator MouseCooldown()
     {
-        mouseCanShoot = false;
+        mouseCanShoot = false; // Player 1 cannot shoot
         yield return new WaitForSeconds(shootCooldown);
-        mouseCanShoot = true;
+        mouseCanShoot = true; // Player 1 can shoot again
     }
 
     IEnumerator ControllerCooldown()
     {
-        controllerCanShoot = false;
+        controllerCanShoot = false; // Player 2 cannot shoot
         yield return new WaitForSeconds(shootCooldown);
-        controllerCanShoot = true;
+        controllerCanShoot = true; // Player 2 can shoot again
     }
 }

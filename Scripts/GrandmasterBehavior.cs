@@ -36,19 +36,20 @@ public class GrandmasterBehavior : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        StartCoroutine(Grandmaster());
-        StartCoroutine(CombinedAreas());
-        StartCoroutine(SpawnEnemies());
+        StartCoroutine(Grandmaster()); // Starts to cast spells and teleport
+        StartCoroutine(CombinedAreas()); // Starts to spawn combined elements
+        StartCoroutine(SpawnEnemies()); // Starts to spawn enemies
     }
 
     // Update is called once per frame
     void Update()
     {
-        Players = GameObject.FindGameObjectsWithTag("Player");
-        playerPosition = Players[randomPlayer].transform.position;
+        Players = GameObject.FindGameObjectsWithTag("Player"); // Assigns all players to the player array
+        playerPosition = Players[randomPlayer].transform.position; // Assigns the position of a random player to this variable
 
-        transform.LookAt(playerPosition);
+        transform.LookAt(playerPosition); // Looks at a random player
 
+        // Destroys the object when the healthpoints is euqals 0 or under 0
         if(HP <= 0)
         {
             Destroy(gameObject);
@@ -103,7 +104,7 @@ public class GrandmasterBehavior : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
-        yield return new WaitForSeconds(4); 
+        yield return new WaitForSeconds(4);
 
         for (int i = 0; i < EnemySpawnPoints.Length; i++) // Spawns 4 Enemys at every spawnposition around the grandmaster
         {

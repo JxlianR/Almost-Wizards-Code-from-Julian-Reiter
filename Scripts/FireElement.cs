@@ -33,11 +33,14 @@ public class FireElement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Movement
         transform.Translate(new Vector3(0, 0.3f, 1) * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // I had to differentiate between a lot of objects when colliding to get the spawned area appear on the right place
+
         // Checks if the tag of the GameObject the element is colliding with equals the string for the first element this element can be combined with
         if (other.tag == combiningElement1Tag || other.tag == combiningArea1Tag)
         {
@@ -56,7 +59,7 @@ public class FireElement : MonoBehaviour
             // Spawns the second combined element at the position I get from DetectGroundHeigh minus the Vector3
             Instantiate(combinedElement2, DetectGroundHeight(other.transform.position.x, other.transform.position.z) - new Vector3(0, 1.3f, 0), combinedElement2.transform.rotation); //combinedElement2 is Magma
         }
-        else if (other.tag == "Enemy") // Checks if the element collides with an enemy or the ground
+        else if (other.tag == "Enemy") // Checks if the element collides with an enemy
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -64,7 +67,7 @@ public class FireElement : MonoBehaviour
             // Spawns the element area of this element at the position I get from DetectGroundHeigh minus the Vector3
             Instantiate(elementArea, DetectGroundHeight(other.transform.position.x, other.transform.position.z) - new Vector3(0, 1.1f, 0), elementArea.transform.rotation); //elementArea is the Fire Impact Area
         }
-        else if (other.tag == "Ground")
+        else if (other.tag == "Ground") // Checks if the element collides with the ground
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -72,7 +75,7 @@ public class FireElement : MonoBehaviour
             // Spawns the element area of this element at the position of the element minus the Vector3
             Instantiate(elementArea, transform.position - new Vector3(0, 0.23f, 0), elementArea.transform.rotation); // Spawns the element area of this elementn);
         }
-        else if (other.tag == "Platform")
+        else if (other.tag == "Platform") // Checks if the element collides with a platform
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 
@@ -80,7 +83,7 @@ public class FireElement : MonoBehaviour
             // Spawns the element area of this element at the position of the element
             Instantiate(elementArea, transform.position, elementArea.transform.rotation); // Spawns the element area of this element
         }
-        else if (other.tag == "Grandmaster")
+        else if (other.tag == "Grandmaster") // Checks if the element collides with the grandmaster
         {
             Instantiate(explosion, transform.position, transform.rotation); // Instantiates the explosion particle
 

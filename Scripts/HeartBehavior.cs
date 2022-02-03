@@ -9,7 +9,7 @@ public class HeartBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Despawn());
+        StartCoroutine(Despawn()); // Starts the coroutine to despawn the heart
     }
 
     // Update is called once per frame
@@ -20,7 +20,7 @@ public class HeartBehavior : MonoBehaviour
 
     IEnumerator Despawn()
     {
-        yield return new WaitForSeconds(duration);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(duration); // Waits a set time
+        Destroy(gameObject); // destroys the heart
     }
 }

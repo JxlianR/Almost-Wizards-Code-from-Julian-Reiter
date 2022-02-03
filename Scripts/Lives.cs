@@ -11,16 +11,15 @@ public class Lives : MonoBehaviour
 
     public int lives = 3;
 
-    public string heart1Name;
-    public string heart2Name;
-    public string heart3Name;
+    public string heart1Name; // Name of the UI element for the first heart
+    public string heart2Name; // Name of the UI element for the second heart
+    public string heart3Name; // Name of the UI element for the third heart
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //lives = 3;
-
+        // Checks if the player has lives left at the start of a wave, if not it sets the life to 3
         if (lives == 0)
         {
             lives = 3;
@@ -37,6 +36,7 @@ public class Lives : MonoBehaviour
         DisplayLives();
     }
 
+    // Changes the color of the UI elements depending on how many lives the player has
     void DisplayLives()
     {
         if (lives == 3)

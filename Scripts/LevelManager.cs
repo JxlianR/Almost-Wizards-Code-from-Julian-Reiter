@@ -13,9 +13,6 @@ public class LevelManager : MonoBehaviour
 
     private Text waveText;
 
-    public int enemyMultiplicator; // Multiplicator for the number of enemies in the next wave
-    public int addedEnemies;
-
     public static int waveNumber = 1; // Number of the wave
 
     // Start is called before the first frame update
@@ -23,7 +20,7 @@ public class LevelManager : MonoBehaviour
     {
         enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
         waveText = GameObject.Find("WaveText").GetComponent<Text>();
-        waveText.text = "Wave " + waveNumber;
+        waveText.text = "Wave " + waveNumber; // Sets the wavetext to the correct text
     }
 
     // Update is called once per frame
@@ -37,29 +34,13 @@ public class LevelManager : MonoBehaviour
         if (AllEnemiesDead() && enemySpawner.enemyCount == enemySpawner.enemyAmount)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); // Loads the next scene
-
-            //playerCanSpawn = true;
-            //enemySpawner.enemyCount = 0; // Sets the counter for enemies back to 0
-            //addedEnemies = addedEnemies * enemyMultiplicator; // Changes the amount of enemies that are getting add to the number of enemies -> Gets higher after every wave
-            //enemySpawner.enemyAmount += addedEnemies; // multiplies the amount of enemies that should spawn with an int
-            //StartCoroutine(enemySpawner.SpawnEnemies()); // Starts the coroutine to spawn new enemies
-
-            //waveNumber++;
-            //waveText.text = "Wave: " + waveNumber;
-            //Debug.Log("Wave " + waveNumber + " starts now!");
-
         }
 
         // Loads the scene "Lose" if all players are dead
         if (AllPlayersDead())
         {
-            SceneManager.LoadScene("Lose");
+            SceneManager.LoadScene("Lose"); // Loads the "Lose" scene
         }
-
-        /*if (waveNumber == 7)
-        {
-            SceneManager.LoadScene("Boss Fight"); // Loads the scene for the boss fight
-        }*/
     }
 
     // Checks if there are any players in the scene

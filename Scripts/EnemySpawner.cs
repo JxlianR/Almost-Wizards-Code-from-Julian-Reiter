@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnEnemies());
+        StartCoroutine(SpawnEnemies()); // Starts to spawn enemies
     }
 
     // Update is called once per frame

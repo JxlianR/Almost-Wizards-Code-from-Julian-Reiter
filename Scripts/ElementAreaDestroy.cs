@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ElementAreaDestroy : MonoBehaviour
 {
+    // This script if for two of the element areas and just destroys them. Another script is responsible for spawning a combined element if necessary (This script is attached to the other two element areas)
+
     public float duration; // Duration of the area, after this duration it gets destroyed
 
     public int Damage; // Damage this area makes

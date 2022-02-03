@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ElementAreaBehavior : MonoBehaviour
 {
-    public GameObject combinedElement1;
-    public string combinedElement1Tag;
+    // This script is for two of the element areas and spawns a combined element if necessary and destroys this object. Another script is responsible for just destroying them (This script is attached to the other two element areas)
 
-    public GameObject combinedElement2;
-    public string combinedElement2Tag;
+    public GameObject combinedElement1; // First combined element out of this element
+    public string combinedElement1Tag; // Tag of the first combined element where this element is part of
+
+    public GameObject combinedElement2; // First combined element out of this element
+    public string combinedElement2Tag; // Tag of the second combined element where this element is part of
 
     public string cancellingElementTag; // Tag of the element that cancels this area
     public string cancellingAreaTag; // Tag of the area that cancels this area
@@ -22,8 +24,8 @@ public class ElementAreaBehavior : MonoBehaviour
 
     public int Damage; // Damage this area makes
 
-    public Vector3 offsetCombine1;
-    public Vector3 offsetCombine2;
+    public Vector3 offsetCombine1; // Vector3 to move the spawned object to the correct position
+    public Vector3 offsetCombine2; // Vector3 to move the spawned object to the correct position
 
     // Start is called before the first frame update
     void Start()
@@ -62,11 +64,11 @@ public class ElementAreaBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Vector3 DetectGroundHeight(float x, float y)
+    public Vector3 DetectGroundHeight(float x, float z)
     {
         RaycastHit hit;
-        Vector3 origin = new Vector3(x, 100, y);
-        Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity);
-        return hit.point;
+        Vector3 origin = new Vector3(x, 100, z); // setting a high number to the v value
+        Physics.Raycast(origin, Vector3.down, out hit, Mathf.Infinity); // Send the raycast
+        return hit.point; // returning the position of the ground
     }
 }

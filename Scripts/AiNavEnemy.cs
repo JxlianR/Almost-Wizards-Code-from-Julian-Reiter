@@ -20,16 +20,16 @@ public class AiNavEnemy : MonoBehaviour
 
     public float timeTillDeath = 0.5f;
 
-    public string weakness;
-    public string weaknessArea;
+    public string weakness; // Tag of the weakness element
+    public string weaknessArea; // Tag of the weakness area
     public string combinedWeaknessElement1; // Tag of the first element that can be created when combing the weakness with another element
     public string combinedWeaknessElement2; // Tag of the first element that can be created when combing the weakness with another element
-    public string ownElement;
-    public string ownArea;
-    public string ownElementCombined1;
-    public string ownElementCombined2;
+    public string ownElement; // Tag of the own type of element
+    public string ownArea; // Tag of the own type of element area
+    public string ownElementCombined1; // Tag of the own type of element in a combination
+    public string ownElementCombined2; // Tag of the own type of element in a combination
 
-    private bool gotDamage;
+    private bool gotDamage; // is true when the enemy just got damage
 
     // Start is called before the first frame update
     void Start()
@@ -53,7 +53,7 @@ public class AiNavEnemy : MonoBehaviour
 
         if (ButtonManager.improveEnemies == true)
         {
-            gameObject.GetComponent<AiNavEnemy>().Agent.speed += 0.6f;
+            gameObject.GetComponent<AiNavEnemy>().Agent.speed += 0.6f; // Increases the speed of the enemies by 0.6
             ButtonManager.improveEnemies = false;
         }
     }
@@ -64,13 +64,13 @@ public class AiNavEnemy : MonoBehaviour
         {
             healthPoints -= 2; ; // Substracts 2 HP
             gotDamage = true; // true means the enemy got damage a short time ago
-            StartCoroutine(CanGetDamage());
+            StartCoroutine(CanGetDamage()); // Starts coroutine to make the enemy get damage again
         }
         else if ((other.tag == combinedWeaknessElement1 || other.tag == combinedWeaknessElement2) && gotDamage == false) // Checks if the object a combined element of the weakness and if it is able to take damage
         {
             healthPoints -= other.gameObject.GetComponent<ElementAreaBehavior>().Damage; // Substracts the damage the element is doing from the HP
             gotDamage = true; // true means the enemy got damage a short time ago
-            StartCoroutine(CanGetDamage());
+            StartCoroutine(CanGetDamage()); // Starts coroutine to make the enemy get damage again
         }
         else if (other.tag == ownElement || other.tag == ownArea) // Checks if the object is its own element or a combined element of it
         {
@@ -83,13 +83,13 @@ public class AiNavEnemy : MonoBehaviour
         {
             healthPoints -= 1; // Substracts 1 HP
             gotDamage = true; // true means the enemy got damage a short time ago
-            StartCoroutine(CanGetDamage());
+            StartCoroutine(CanGetDamage()); // Starts coroutine to make the enemy get damage again
         }
     }
 
     private void Movement()
     {
-        //transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime); // Moving the enemy forwards#
+        // Moving the enemy forwards#
         Agent.SetDestination(closestPlayer.position);
     }
 
@@ -138,10 +138,10 @@ public class AiNavEnemy : MonoBehaviour
 
     IEnumerator Die()
     {
-        animator.SetBool("Dying", true);
-        GetComponent<NavMeshAgent>().enabled = false;
-        yield return new WaitForSeconds(timeTillDeath);
-        Destroy(gameObject);
+        animator.SetBool("Dying", true); // Starts Dying animation
+        GetComponent<NavMeshAgent>().enabled = false; // Disables the NavMeshAgent, so the enemy stops moving
+        yield return new WaitForSeconds(timeTillDeath); // Waits a set time
+        Destroy(gameObject); // Destroying the enemie
         Drop();
     }
 }

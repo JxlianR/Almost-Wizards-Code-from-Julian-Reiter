@@ -19,7 +19,7 @@ public class AiNavDarkEnemy : MonoBehaviour
 
     public float timeTillDeath = 0.5f;
 
-    private bool gotDamage;
+    private bool gotDamage; // is true when the enemy just got damage
 
     // Start is called before the first frame update
     void Start()
@@ -39,36 +39,35 @@ public class AiNavDarkEnemy : MonoBehaviour
         if (healthPoints <= 0)
         {
             StartCoroutine(Die());
-            //Destroy(gameObject);
         }
 
         if (ButtonManager.improveEnemies == true)
         {
-            gameObject.GetComponent<AiNavDarkEnemy>().Agent.speed += 0.6f;
+            gameObject.GetComponent<AiNavDarkEnemy>().Agent.speed += 0.6f; // Increases the speed of the enemies by 0.6
             ButtonManager.improveEnemies = false;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if ((other.tag == "Firenado" || other.tag == "Magma" || other.tag == "Ice" || other.tag == "Mud") && gotDamage == false)
+        if ((other.tag == "Firenado" || other.tag == "Magma" || other.tag == "Ice" || other.tag == "Mud") && gotDamage == false) // Checks if the other object is a combined element and if the enemy got damage a short time before
         {
             healthPoints -= other.gameObject.GetComponent<ElementAreaBehavior>().Damage; // Substracts the damage the element is doing from the HP
             gotDamage = true; // true means the enemy got damage a short time ago
-            StartCoroutine(CanGetDamage());
+            StartCoroutine(CanGetDamage()); // Starts coroutine to make the enemy get damage again
         }
-        else if (other.tag != "Player" && other.tag != "Grandmaster" && gotDamage == false)
+        else if (other.tag != "Player" && other.tag != "Grandmaster" && gotDamage == false) // Checks if the other object is not a player or the grandmaster and if the enemy got damage a short time before
         {
             healthPoints -= 1; // Substracts 1 HP
             Debug.Log("Healtpoints = " + healthPoints + " - " + FireElement.damage);
             gotDamage = true; // true means the enemy got damage a short time ago
-            StartCoroutine(CanGetDamage());
+            StartCoroutine(CanGetDamage()); // Starts coroutine to make the enemy get damage again
         }
     }
 
     private void Movement()
     {
-        //transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime); // Moving the enemy forwards#
+        // Moving the enemy forwards
         Agent.SetDestination(closestPlayer.position);
     }
 
@@ -117,10 +116,10 @@ public class AiNavDarkEnemy : MonoBehaviour
 
     IEnumerator Die()
     {
-        animator.SetBool("Dying", true);
-        GetComponent<NavMeshAgent>().enabled = false;
-        yield return new WaitForSeconds(timeTillDeath);
-        Destroy(gameObject);
+        animator.SetBool("Dying", true); // Starts Dying animation
+        GetComponent<NavMeshAgent>().enabled = false; // Disables the NavMeshAgent, so the enemy stops moving
+        yield return new WaitForSeconds(timeTillDeath); // Waits a set time
+        Destroy(gameObject); // Destroying the enemie
         Drop();
     }
 }
